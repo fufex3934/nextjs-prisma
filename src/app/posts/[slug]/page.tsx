@@ -1,20 +1,20 @@
 import Link from "next/link";
 import prisma from "@/lib/db";
-const Posts = async () => {
-  const posts = await prisma.post.findMany();
+const PostDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await params;
+  const post = await prisma.post.findUnique({ where: { slug } });
 
   return (
     <main className="flex flex-col items-center gap-y-5 pt-24 text-center">
       <h1 className="text-3xl font-semibold">All Posts(0)</h1>
       <ul className="border-t border-b border-black/10 py-5 leading-8">
-        {posts.map((post) => (
-          <li key={post.id} className="flex items-center justify-between px-5">
-            <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-          </li>
-        ))}
+        <li>
+          <h1>{post?.title}</h1>
+          <p>{post?.content}</p>
+        </li>
       </ul>
     </main>
   );
 };
 
-export default Posts;
+export default PostDetails;
