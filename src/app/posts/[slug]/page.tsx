@@ -2,7 +2,9 @@ import Link from "next/link";
 import prisma from "@/lib/db";
 const PostDetails = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
-  const post = await prisma.post.findUnique({ where: { slug } });
+  const post = await prisma.post.findUnique({ where:{
+    slug
+  } });
 
   return (
     <main className="flex flex-col items-center gap-y-5 pt-24 text-center">
